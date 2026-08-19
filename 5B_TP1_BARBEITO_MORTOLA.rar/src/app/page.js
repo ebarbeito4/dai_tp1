@@ -1,69 +1,62 @@
-import Image from "next/image";
+"use client";
+
+import { useEffect, useState } from "react";
 import styles from "@/app/Home.module.css";
 
 export default function Home() {
+  const [alumno, setAlumno] = useState("");
+  const [mostrarAyuda, setMostrarAyuda] = useState(false);
+
+  useEffect(() => {
+    document.title = "Pio Promedios - Inicio";
+  }, []);
+
+  useEffect(() => {
+    console.log("El alumno cambió:", alumno);
+  }, [alumno]);
+
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
+    <main className={styles.pagina}>
+      <section className={styles.columna}>
+        <h1>Pio Promedios</h1>
+        <input
+          className={styles.input}
+          type="text"
+          value={alumno}
+          onChange={(event) => setAlumno(event.target.value)}
+          placeholder="Ingresá tu nombre"
         />
-        <div className={styles.intro}>
-          <h1>
-            To get started, edit the{" "}
-            <code className={styles.code}>page.js</code> file.
-          </h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+
+        <div className={styles.bienvenida}>
+          {alumno === "" ? (
+            <p className={styles.mensaje}>
+              Por favor, ingresá tu nombre para continuar.
+            </p>
+          ) : (
+            <>
+              <h2>¡Hola, {alumno}!</h2>
+              <p className={styles.mensaje}>
+                La calculadora de notas está disponible en http://localhost:3000/notas.
+              </p>
+            </>
+          )}
         </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+
+        <button
+          className={styles.boton}
+          onClick={() => setMostrarAyuda(!mostrarAyuda)}
+        >
+          Mostrar/Ocultar ayuda
+        </button>
+
+        {mostrarAyuda && (
+          <ul className={styles.ayuda}>
+            <li>Ingresá tu nombre para comenzar.</li>
+            <li>Accedé a la calculadora desde la ruta /notas.</li>
+            <li>Agregá o eliminá notas para calcular el promedio.</li>
+          </ul>
+        )}
+      </section>
+    </main>
   );
 }
