@@ -5,9 +5,12 @@ import ListaNotas from "@/app/components/ListaNotas";
 import styles from "./Notas.module.css";
 
 export default function NotasPage() {
+	// Estado inicial con 3 notas de ejemplo para que la app tenga contenido al abrirse.
 	const [notas, setNotas] = useState([8, 5, 10]);
+	// Controla si la pantalla está cargando inicialmente antes de mostrar la lista.
 	const [cargando, setCargando] = useState(true);
 
+	// Simula una carga inicial de la página durante 2 segundos.
 	useEffect(() => {
 		const temporizador = setTimeout(() => {
 			setCargando(false);
@@ -16,10 +19,12 @@ export default function NotasPage() {
 		return () => clearTimeout(temporizador);
 	}, []);
 
+	// Actualiza el título de la pestaña con la cantidad de notas actuales.
 	useEffect(() => {
 		document.title = `Pio Promedios - ${notas.length} notas`;
 	}, [notas]);
 
+	// Agrega una nueva nota al final del arreglo y actualiza el estado.
 	const agregarNota = (nota) => {
 		const copia = [];
 		notas.forEach((n) => copia.push(n));
@@ -27,6 +32,7 @@ export default function NotasPage() {
 		setNotas(copia);
 	};
 
+	// Elimina una nota según su índice dentro del arreglo.
 	const eliminarNota = (indice) => {
 		const copia = [];
 		notas.forEach((n, i) => {
@@ -35,6 +41,7 @@ export default function NotasPage() {
 		setNotas(copia);
 	};
 
+	// Decide qué contenido mostrar según el estado de carga.
 	const renderizarContenido = () => {
 		if (cargando) {
 			return <p className={styles.cargando}>⏳ Cargando las notas...</p>;
